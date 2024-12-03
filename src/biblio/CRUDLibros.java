@@ -30,6 +30,16 @@ DefaultTableModel model;
         
     }
 
+    void Limpiar(){
+        txttitulo.setText("");
+        txtautor.setText("");
+        txteditorial.setText("");
+        txtanio.setText("");
+        txtcategoria.setText("");
+        txtejemplar.setText("");
+        lblID.setText("");
+    }
+    
     void Folio(){
     int numero = (int) (Math.random() * 999999999) + 1;
     folio = String.valueOf(numero);
@@ -53,7 +63,7 @@ void Nueva(){
             int n = sent.executeUpdate(sql);
             if(n>0){
                 JOptionPane.showMessageDialog(null,"Datos guardados");
-                
+                Limpiar();
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudieron guardar los datos");
             }
@@ -78,7 +88,7 @@ void Editar(){
             int n = sent.executeUpdate(sql);
             if(n>0){
                 JOptionPane.showMessageDialog(null,"Datos guardados");
-                
+                Limpiar();
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudieron guardar los datos");
             }
@@ -99,6 +109,7 @@ void Eliminar(){
             
             if(n>0){
                 JOptionPane.showMessageDialog(null,"Libro eliminado correctamente");
+                Limpiar();
             }else{
                 JOptionPane.showMessageDialog(null,"No se eliminó el registro");
             }
@@ -180,6 +191,7 @@ void Llenar(){
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tblDB.setBorder(new javax.swing.border.MatteBorder(null));
         tblDB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -275,8 +287,10 @@ void Llenar(){
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jLabel7.setText("Categoría:");
 
+        lblID.setBackground(new java.awt.Color(204, 204, 204));
         lblID.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        lblID.setText("XXXXXX");
+        lblID.setForeground(new java.awt.Color(255, 255, 255));
+        lblID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jLabel8.setText("# De ejemplar:");
@@ -296,26 +310,24 @@ void Llenar(){
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtautor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txteditorial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtanio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblID)
-                        .addComponent(txttitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtejemplar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtcategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(txtautor, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(txteditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(txtanio, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(txttitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(txtejemplar, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lblID))
-                .addGap(24, 24, 24)
+                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txttitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
