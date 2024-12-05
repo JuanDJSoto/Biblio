@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -15,46 +18,49 @@ import javax.swing.table.JTableHeader;
  *
  * @author gordi
  */
-public class CRUDLibros extends javax.swing.JFrame {
+public class CRUDMiembros extends javax.swing.JFrame {
 Connection conn;
 Statement sent;
-String folio;
+String folio,fecha;
 DefaultTableModel model;
     /**
      * Creates new form GestionProducto
      */
-    public CRUDLibros() {
+    public CRUDMiembros() {
         initComponents();
         Llenar();
+        fecha();
         setLocationRelativeTo(null);
         
     }
 
+    void fecha(){
+        LocalDateTime hoy = LocalDateTime.now();
+        int dia = hoy.getDayOfMonth();
+        int mes = hoy.getMonthValue();
+        int anio = hoy.getYear();
+        fecha= dia+"-"+mes+"-"+anio;
+        txtfecha.setText(fecha);
+    }
+    
     void Limpiar(){
-        txttitulo.setText("");
-        txtautor.setText("");
-        txteditorial.setText("");
-        txtanio.setText("");
-        txtcategoria.setText("");
-        txtejemplar.setText("");
+        txtnombre.setText("");
+        txttelefono.setText("");
+        txtfecha.setText(fecha);
         lblID.setText("");
     }
     
 void Nueva(){
-        if(txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
-        }else{
+    if(txtnombre.getText().equals("") || txttelefono.getText().equals("")){
+        JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos");
+    }else{
         try{
             conn = DB.Mysql.getConnection();
-            String sql = "insert into Libros (TITULO_LIBRO,AUTOR_LIBRO,EDITORIAL_LIBRO,ANIO_LIBRO,ESTADO_LIBRO,CATEGORIA_LIBRO,EJEMPLAR_LIBRO)"
+            String sql = "insert into Miembros (NOMBRE_MIEMBRO,FECHA_MIEMBRO,TEL_MIEMBRO)"
                     +"values("
-                    +"'"+txttitulo.getText()+"',"
-                    +"'"+txtautor.getText()+"',"
-                    +"'"+txteditorial.getText()+"',"
-                    +"'"+txtanio.getText()+"',"
-                    +"'Disponible',"
-                    +"'"+txtcategoria.getText()+"',"
-                    +"'"+txtejemplar.getText()+"')";
+                    +"'"+txtnombre.getText()+"',"
+                    +"'"+fecha+"',"
+                    +"'"+txttelefono.getText()+"')";
             sent = conn.createStatement();
             int n = sent.executeUpdate(sql);
             if(n>0){
@@ -67,23 +73,18 @@ void Nueva(){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         Llenar();
-        }
 }
-
+}
 void Editar(){
-    if(txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
-        }else{
+    if(txtnombre.getText().equals("") || txttelefono.getText().equals("")){
+        JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos");
+    }else{
         try{
             conn = DB.Mysql.getConnection();
-            String sql = "UPDATE Libros SET TITULO_LIBRO="
-                    +"'"+txttitulo.getText()+"',AUTOR_LIBRO="
-                    +"'"+txtautor.getText()+"',EDITORIAL_LIBRO="
-                    +"'"+txteditorial.getText()+"',ANIO_LIBRO="
-                    +"'"+txtanio.getText()+"',ESTADO_LIBRO= 'Disponible',CATEGORIA_LIBRO="
-                    +"'"+txtcategoria.getText()+"',EJEMPLAR_LIBRO="
-                    +"'"+txtejemplar.getText()+"' WHERE ID_LIBRO='"
-                    +lblID.getText()+"'";
+            String sql = "UPDATE Miembros SET NOMBRE_MIEMBRO="
+                    +"'"+txtnombre.getText()+"',FECHA_MIEMBRO="
+                    +"'"+fecha+"',TEL_MIEMBRO="
+                    +"'"+txttelefono.getText()+"' WHERE ID_MIEMBRO='"+lblID.getText()+"'";
             sent = conn.createStatement();
             int n = sent.executeUpdate(sql);
             if(n>0){
@@ -97,19 +98,18 @@ void Editar(){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         Llenar();
-    }
 }
-
+}
 void Eliminar(){
     try{
-            String sql = "DELETE from Libros WHERE ID_LIBRO='"
+            String sql = "DELETE from Miembros WHERE ID_MIEMBRO='"
                     +lblID.getText()+"'";
             conn = DB.Mysql.getConnection();
             sent = conn.createStatement();
             int n = sent.executeUpdate(sql);
             
             if(n>0){
-                JOptionPane.showMessageDialog(null,"Libro eliminado correctamente");
+                JOptionPane.showMessageDialog(null,"Miembro eliminado correctamente");
                 Limpiar();
             }else{
                 JOptionPane.showMessageDialog(null,"No se eliminó el registro");
@@ -122,29 +122,22 @@ void Eliminar(){
 }
 
 void Llenar(){
-     // Obtener el encabezado de la tabla
         JTableHeader header = tblDB.getTableHeader();
-
-        // Crear una fuente personalizada para el encabezado
-        Font headerFont = new Font("Times New Roman", Font.BOLD, 14); // Cambia "Arial" por el nombre de tu fuente
+        Font headerFont = new Font("Times New Roman", Font.BOLD, 14); 
         header.setFont(headerFont);
         try {
             conn = DB.Mysql.getConnection();
-            String[] titulos ={"ID","Título","Autor","Editorial","Año","Estado","Categoría","#Ejemplar"};
-            String sql = "Select * from libros";
+            String[] titulos ={"ID","Nombre","Fecha de modificacion","Telefono"};
+            String sql = "Select * from Miembros";
             model = new DefaultTableModel(null, titulos);
             sent = conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-            String[] fila = new String[8];
+            String[] fila = new String[4];
             while (rs.next()){
-                fila[0]=rs.getString("ID_LIBRO");
-                fila[1]=rs.getString("TITULO_LIBRO");
-                fila[2]=rs.getString("AUTOR_LIBRO");
-                fila[3]=rs.getString("EDITORIAL_LIBRO");
-                fila[4]=rs.getString("ANIO_LIBRO");
-                fila[5]=rs.getString("ESTADO_LIBRO");
-                fila[6]=rs.getString("CATEGORIA_LIBRO");
-                fila[7]=rs.getString("EJEMPLAR_LIBRO");
+                fila[0]=rs.getString("ID_MIEMBRO");
+                fila[1]=rs.getString("NOMBRE_MIEMBRO");
+                fila[2]=rs.getString("FECHA_MIEMBRO");
+                fila[3]=rs.getString("TEL_MIEMBRO");
                 model.addRow(fila);
             }
             tblDB.setModel(model);
@@ -170,24 +163,18 @@ void Llenar(){
         btnnuevo = new javax.swing.JButton();
         btneditar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        lblbuscar = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        lblbuscar = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txttitulo = new javax.swing.JTextField();
+        txtnombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtautor = new javax.swing.JTextField();
+        txttelefono = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txteditorial = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtanio = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtcategoria = new javax.swing.JTextField();
+        txtfecha = new javax.swing.JTextField();
         lblID = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtejemplar = new javax.swing.JTextField();
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -243,8 +230,6 @@ void Llenar(){
             }
         });
 
-        jLabel9.setText("Buscar por ID:");
-
         lblbuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/descargar.png"))); // NOI18N
         lblbuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblbuscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,6 +238,8 @@ void Llenar(){
             }
         });
 
+        jLabel9.setText("Buscar por ID:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -260,12 +247,12 @@ void Llenar(){
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btneditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btneditar, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                .addComponent(btnnuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,24 +264,24 @@ void Llenar(){
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnnuevo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btneditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btneliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblbuscar))
-                .addGap(18, 18, 18)
-                .addComponent(btnnuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btneditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btneliminar)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 180, 290));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 180, 160));
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -303,85 +290,56 @@ void Llenar(){
         jLabel2.setText("ID:");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel3.setText("Título:");
+        jLabel3.setText("Nombre:");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel4.setText("Autor:");
+        jLabel4.setText("Número Telefónico:");
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel5.setText("Editorial:");
-
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel6.setText("Año de publicación:");
-
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel7.setText("Categoría:");
+        jLabel5.setText("Fecha de última modificación:");
 
         lblID.setBackground(new java.awt.Color(204, 204, 204));
         lblID.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         lblID.setForeground(new java.awt.Color(255, 255, 255));
         lblID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel8.setText("# De Ejemplar:");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel2)
+                    .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtcategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtautor, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txteditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtanio, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txttitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtejemplar, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txttitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtautor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txteditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtejemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
@@ -390,7 +348,7 @@ void Llenar(){
         lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Gestión de Libros");
+        lblTitulo.setText("Gestión de Miembros");
         lblTitulo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, -1, -1));
 
@@ -417,18 +375,15 @@ void Llenar(){
             int fila = tblDB.getSelectedRow();
             try{
                 conn = DB.Mysql.getConnection();
-                String sql = "Select * from libros where ID_LIBRO='" + tblDB.getValueAt(fila, 0)+"'";
+                String sql = "Select * from Miembros where ID_MIEMBRO='" + tblDB.getValueAt(fila, 0)+"'";
                 sent = conn.createStatement();
                 ResultSet rs = sent.executeQuery(sql);
                 rs.next();
-                if(rs.getString("TITULO_LIBRO")!=""){
-                    lblID.setText(rs.getString("ID_LIBRO"));
-                    txttitulo.setText(rs.getString("TITULO_LIBRO"));
-                    txtautor.setText(rs.getString("AUTOR_LIBRO"));
-                    txteditorial.setText(rs.getString("EDITORIAL_LIBRO"));
-                    txtanio.setText(rs.getString("ANIO_LIBRO"));
-                    txtcategoria.setText(rs.getString("CATEGORIA_LIBRO"));
-                    txtejemplar.setText(rs.getString("EJEMPLAR_LIBRO"));
+                if(rs.getString("NOMBRE_MIEMBRO")!=""){
+                    lblID.setText(rs.getString("ID_MIEMBRO"));
+                    txtnombre.setText(rs.getString("NOMBRE_MIEMBRO"));
+                    txtfecha.setText(rs.getString("FECHA_MIEMBRO"));
+                    txttelefono.setText(rs.getString("TEL_MIEMBRO"));
 
                 }else{
                     JOptionPane.showMessageDialog(null, "Error");
@@ -452,7 +407,7 @@ void Llenar(){
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         // TODO add your handling code here:
-        int dialogResult = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este registro?");
+        int dialogResult = JOptionPane.showConfirmDialog (null, "¿Está seguro de eliminar este registro?","Alerta",1);
         if(dialogResult == JOptionPane.YES_OPTION){
             Eliminar();
         }
@@ -461,27 +416,24 @@ void Llenar(){
     private void lblbuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblbuscarMouseClicked
         // TODO add your handling code here:
         try{
-                conn = DB.Mysql.getConnection();
-                String sql = "Select * from libros where ID_LIBRO='" + txtID.getText()+"'";
-                sent = conn.createStatement();
-                ResultSet rs = sent.executeQuery(sql);
-                rs.next();
-                String a = rs.getString(1);
-                if(rs!=null){
-                    lblID.setText(rs.getString("ID_LIBRO"));
-                    txttitulo.setText(rs.getString("TITULO_LIBRO"));
-                    txtautor.setText(rs.getString("AUTOR_LIBRO"));
-                    txteditorial.setText(rs.getString("EDITORIAL_LIBRO"));
-                    txtanio.setText(rs.getString("ANIO_LIBRO"));
-                    txtcategoria.setText(rs.getString("CATEGORIA_LIBRO"));
-                    txtejemplar.setText(rs.getString("EJEMPLAR_LIBRO"));
+            conn = DB.Mysql.getConnection();
+            String sql = "Select * from Miembros where ID_MIEMBRO='" + txtID.getText()+"'";
+            sent = conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            rs.next();
+            String a = rs.getString(1);
+            if(rs!=null){
+                lblID.setText(rs.getString("ID_MIEMBRO"));
+                    txtnombre.setText(rs.getString("NOMBRE_MIEMBRO"));
+                    txtfecha.setText(rs.getString("FECHA_MIEMBRO"));
+                    txttelefono.setText(rs.getString("TEL_MIEMBRO"));
 
-                }else{
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+            }else{
+                JOptionPane.showMessageDialog(null, "Error");
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_lblbuscarMouseClicked
 
     /**
@@ -501,14 +453,22 @@ void Llenar(){
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CRUDLibros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CRUDMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CRUDLibros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CRUDMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CRUDLibros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CRUDMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CRUDLibros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CRUDMiembros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -521,7 +481,7 @@ void Llenar(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CRUDLibros().setVisible(true);
+                new CRUDMiembros().setVisible(true);
             }
         });
     }
@@ -535,9 +495,6 @@ void Llenar(){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -548,11 +505,8 @@ void Llenar(){
     private javax.swing.JLabel lblbuscar;
     private javax.swing.JTable tblDB;
     private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtanio;
-    private javax.swing.JTextField txtautor;
-    private javax.swing.JTextField txtcategoria;
-    private javax.swing.JTextField txteditorial;
-    private javax.swing.JTextField txtejemplar;
-    private javax.swing.JTextField txttitulo;
+    private javax.swing.JTextField txtfecha;
+    private javax.swing.JTextField txtnombre;
+    private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables
 }

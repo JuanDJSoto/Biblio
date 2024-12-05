@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
  * @author 3RO
  */
 public class Mysql {
-    private static String db="biblioteca";
     private static String user="root";
     private static String pass="";
     private static String url="jdbc:mysql://localhost:3306/biblioteca";
@@ -24,7 +23,7 @@ public class Mysql {
         try{
             Conn=DriverManager.getConnection(url, user, pass);
             if(Conn!=null){
-                JOptionPane.showMessageDialog(null, "Conexión estalecida con éxito");
+                //JOptionPane.showMessageDialog(null, "Conexión estalecida con éxito");
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error"+e.getMessage());

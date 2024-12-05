@@ -203,9 +203,9 @@ public static String users="0";
         }else{
             String Pass=new String(password.getPassword());
         if(txtusuario.getText().equals(usuario)&&Pass.equals(contraseña)){
-            new test().setVisible(true);
-            this.setVisible(false);
             JOptionPane.showMessageDialog(null, "Login exitoso");
+            new CRUDLibros().setVisible(true);
+            this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
