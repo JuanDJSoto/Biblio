@@ -468,6 +468,7 @@ void Llenar(){
                 rs.next();
                 String a = rs.getString(1);
                 if(rs!=null){
+                    //JOptionPane.showMessageDialog(null, "Registro encontrado");
                     lblID.setText(rs.getString("ID_LIBRO"));
                     txttitulo.setText(rs.getString("TITULO_LIBRO"));
                     txtautor.setText(rs.getString("AUTOR_LIBRO"));
@@ -480,6 +481,7 @@ void Llenar(){
                     JOptionPane.showMessageDialog(null, "Error");
                 }
             }catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Registro no encontrado");
                 e.printStackTrace();
             }
     }//GEN-LAST:event_lblbuscarMouseClicked

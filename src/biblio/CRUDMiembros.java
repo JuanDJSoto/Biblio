@@ -40,13 +40,13 @@ DefaultTableModel model;
         int mes = hoy.getMonthValue();
         int anio = hoy.getYear();
         fecha= dia+"-"+mes+"-"+anio;
-        txtfecha.setText(fecha);
+        //lblfecha.setText(fecha);
     }
     
     void Limpiar(){
         txtnombre.setText("");
         txttelefono.setText("");
-        txtfecha.setText(fecha);
+        lblfecha.setText(fecha);
         lblID.setText("");
     }
     
@@ -173,8 +173,9 @@ void Llenar(){
         jLabel4 = new javax.swing.JLabel();
         txttelefono = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtfecha = new javax.swing.JTextField();
         lblID = new javax.swing.JLabel();
+        lblfecha = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -303,6 +304,10 @@ void Llenar(){
         lblID.setForeground(new java.awt.Color(255, 255, 255));
         lblID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        lblfecha.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblfecha.setForeground(new java.awt.Color(255, 255, 255));
+        lblfecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -310,15 +315,21 @@ void Llenar(){
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
-                .addContainerGap(103, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(lblfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(103, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,8 +338,13 @@ void Llenar(){
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -338,8 +354,8 @@ void Llenar(){
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(lblfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
@@ -382,7 +398,7 @@ void Llenar(){
                 if(rs.getString("NOMBRE_MIEMBRO")!=""){
                     lblID.setText(rs.getString("ID_MIEMBRO"));
                     txtnombre.setText(rs.getString("NOMBRE_MIEMBRO"));
-                    txtfecha.setText(rs.getString("FECHA_MIEMBRO"));
+                    lblfecha.setText(rs.getString("FECHA_MIEMBRO"));
                     txttelefono.setText(rs.getString("TEL_MIEMBRO"));
 
                 }else{
@@ -423,15 +439,17 @@ void Llenar(){
             rs.next();
             String a = rs.getString(1);
             if(rs!=null){
+                //JOptionPane.showMessageDialog(null, "Registro encontrado con éxito");
                 lblID.setText(rs.getString("ID_MIEMBRO"));
                     txtnombre.setText(rs.getString("NOMBRE_MIEMBRO"));
-                    txtfecha.setText(rs.getString("FECHA_MIEMBRO"));
+                    lblfecha.setText(rs.getString("FECHA_MIEMBRO"));
                     txttelefono.setText(rs.getString("TEL_MIEMBRO"));
 
             }else{
                 JOptionPane.showMessageDialog(null, "Error");
             }
         }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Registro no encontrado");
             e.printStackTrace();
         }
     }//GEN-LAST:event_lblbuscarMouseClicked
@@ -490,6 +508,7 @@ void Llenar(){
     private javax.swing.JButton btneditar;
     private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnnuevo;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -503,9 +522,9 @@ void Llenar(){
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblbuscar;
+    private javax.swing.JLabel lblfecha;
     private javax.swing.JTable tblDB;
     private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtfecha;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables

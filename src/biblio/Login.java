@@ -11,6 +11,7 @@ package biblio;
  */
 
 import java.sql.Connection;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -102,6 +103,16 @@ public static String users="0";
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(txtusuario)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -114,18 +125,8 @@ public static String users="0";
                                 .addComponent(btnsalirlogin))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(57, 57, 57)
-                                .addComponent(jLabel7))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                            .addComponent(txtusuario)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(jLabel1)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                                .addComponent(jLabel7)))))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,43 +175,32 @@ public static String users="0";
 
     private void btnaccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccederActionPerformed
         // TODO add your handling code here
-        String usuario="qertyuiopñlkjhgfdsa";
-        String contraseña="qwertyuiopñlkjhgfdsa";
-        String psql = "SELECT Password from usuario WHERE Nombre='"+txtusuario.getText()+"'";
-        String usql = "SELECT Nombre from usuario WHERE Password='"+password.getText()+"'";
-        try{
-
-            Conn = DB.Mysql.getConnection();
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(usql);
-            rs.next();
-            usuario = rs.getString(1);
-        }catch (Exception e){
-            //JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        try{
-            Conn = DB.Mysql.getConnection();
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(psql);
-            rs.next();
-            contraseña = rs.getString(1);
-        }catch (Exception e){
-            //JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-        
+        String usuario=txtusuario.getText();
+        String pass=password.getText();
+        String pass1="";
+        Boolean a=false;
+        String sql ="SELECT CONTRASENIA_USUARIO from USUARIO WHERE NOMBRE_USUARIO='"+usuario+"'";
         if(password.getText().equals("") || txtusuario.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Inserte su usuario y contraseña");
         }else{
-            String Pass=new String(password.getPassword());
-        if(txtusuario.getText().equals(usuario)&&Pass.equals(contraseña)){
-            JOptionPane.showMessageDialog(null, "Login exitoso");
-            new CRUDLibros().setVisible(true);
-            this.setVisible(false);
-        }else{
+        try{
+
+            Conn = DB.Mysql.getConnection();
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            rs.next();
+             pass1= rs.getString(1);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null,"Usuario no encontrado");
+        }
+        if(BCrypt.checkpw(pass, pass1)){
+        JOptionPane.showMessageDialog(null, "Login exitoso");
+        new test().setVisible(true);
+        this.setVisible(false);
+    }else{
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
         }
-
     }//GEN-LAST:event_btnaccederActionPerformed
 
     private void btnsalirloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirloginActionPerformed

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -16,7 +17,9 @@ import javax.swing.JOptionPane;
 public class usuarios extends javax.swing.JFrame {
 Connection conn;
 Statement sent;
-String usuario="";
+String usuario="a";
+String hashpass="";
+String validar="f";
     /**
      * Creates new form usuarios
      */
@@ -24,9 +27,15 @@ String usuario="";
         initComponents();
         setLocationRelativeTo(null);
     }
+    
+    void hash(){
+         String contraplano = pass1.getText();
+         hashpass = BCrypt.hashpw(contraplano, BCrypt.gensalt());
+    }
+    
 void ver(){
     
-    String sql="Select Nombre from usuario where nombre='"+txtusuario.getText()+"'";
+    String sql="Select NOMBRE_USUARIO from USUARIO where NOMBRE_USUARIO='"+txtusuario.getText()+"'";
     try{
 
             conn = DB.Mysql.getConnection();
@@ -36,6 +45,20 @@ void ver(){
             usuario = rs.getString(1);
         }catch (Exception e){
             //JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+}
+
+void verf(){
+    validar="t";
+    if(usuario.equals(txtusuario.getText())){
+            JOptionPane.showMessageDialog(null, "Usuario no válido, ya se usó en otro registro");
+            validar="f";
+        }if(pass1.getText().equals("") || txtusuario.getText().equals("") || pass2.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+            validar="f";
+        }if(!pass1.getText().equals(pass2.getText())){
+            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intentelo de nuevo");
+            validar="f";
         }
 }
     /**
@@ -153,31 +176,28 @@ void ver(){
     private void btnconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfActionPerformed
         // TODO add your handling code here:
         ver();
-        if(usuario.equals(txtusuario.getText())){
-            JOptionPane.showMessageDialog(null, "Usuario no válido, ya se usó en otro registro");
-        }if(pass1.getText().equals("") || txtusuario.getText().equals("") || pass2.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
-        }if(!pass1.getText().equals(pass2.getText())){
-            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intentelo de nuevo");
-        }
-        else{
-        try{
-            conn = DB.Mysql.getConnection();
-            String sql = "insert into usuario (Nombre,Password)"
-                    +"values('"+txtusuario.getText()+"',"
-                    +"'"+pass1.getText()+"')";
-            sent = conn.createStatement();
-            int n = sent.executeUpdate(sql);
-            if(n>0){
-                JOptionPane.showMessageDialog(null,"Usuario guardado");
-                new Login().setVisible(true);
-                this.setVisible(false);
-            }else{
-                JOptionPane.showMessageDialog(null,"No se pudo crear el usuario");
+        verf();
+        if(validar.equals("t")){
+            try{
+                hash();
+                conn = DB.Mysql.getConnection();
+                String sql = "insert into usuario (NOMBRE_USUARIO,CONTRASENIA_USUARIO,RANGO_USUARIO)"
+                        +"values('"+txtusuario.getText()+"',"
+                        +"'"+hashpass+"','1')";
+                sent = conn.createStatement();
+                int n = sent.executeUpdate(sql);
+                if(n>0){
+                    JOptionPane.showMessageDialog(null,"Usuario guardado");
+                    new Login().setVisible(true);
+                    this.setVisible(false);
+                }else{
+                    JOptionPane.showMessageDialog(null,"No se pudo crear el usuario");
+                }
+            }catch (Exception e){
+                JOptionPane.showMessageDialog(null,e.getMessage());
             }
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
+        }else{
+            //JOptionPane.showMessageDialog(null, "No se puede crear el usuario");
         }
     }//GEN-LAST:event_btnconfActionPerformed
 
