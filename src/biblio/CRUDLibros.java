@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package biblio;
+import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,6 +26,10 @@ DefaultTableModel model;
      */
     public CRUDLibros() {
         initComponents();
+        opa.setOpaque(true);
+        opa.setBackground(new Color(74,74,82, 200));
+        ope.setOpaque(true);
+        ope.setBackground(new Color(74,74,82, 200));
         Llenar();
         setLocationRelativeTo(null);
         
@@ -41,7 +46,7 @@ DefaultTableModel model;
     }
     
 void Nueva(){
-        if(txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
+        if(txtISBN.getText().equals("") || txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
         }else{
         try{
@@ -71,7 +76,7 @@ void Nueva(){
 }
 
 void Editar(){
-    if(txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
+    if(txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("") || txtISBN.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
         }else{
         try{
@@ -128,6 +133,8 @@ void Llenar(){
         // Crear una fuente personalizada para el encabezado
         Font headerFont = new Font("Times New Roman", Font.BOLD, 14); // Cambia "Arial" por el nombre de tu fuente
         header.setFont(headerFont);
+        header.setBackground(new Color(51, 51, 55));
+        header.setForeground(Color.white);
         try {
             conn = DB.Mysql.getConnection();
             String[] titulos ={"ID","Título","Autor","Editorial","Año","Estado","Categoría","#Ejemplar"};
@@ -173,6 +180,7 @@ void Llenar(){
         jLabel9 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         lblbuscar = new javax.swing.JLabel();
+        ope = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -188,6 +196,9 @@ void Llenar(){
         lblID = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtejemplar = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtISBN = new javax.swing.JTextField();
+        opa = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -195,7 +206,9 @@ void Llenar(){
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tblDB.setBackground(new java.awt.Color(32, 32, 53));
         tblDB.setBorder(new javax.swing.border.MatteBorder(null));
+        tblDB.setForeground(new java.awt.Color(255, 255, 255));
         tblDB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -207,6 +220,7 @@ void Llenar(){
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblDB.setGridColor(new java.awt.Color(51, 51, 51));
         tblDB.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDBMouseClicked(evt);
@@ -218,171 +232,179 @@ void Llenar(){
 
         jPanel4.setBackground(new java.awt.Color(102, 102, 102));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnnuevo.setBackground(new java.awt.Color(0, 0, 0));
         btnnuevo.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btnnuevo.setForeground(new java.awt.Color(255, 255, 255));
         btnnuevo.setText("Nuevo");
+        btnnuevo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnnuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnnuevoActionPerformed(evt);
             }
         });
+        jPanel4.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 77, 96, 37));
 
+        btneditar.setBackground(new java.awt.Color(0, 0, 0));
         btneditar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btneditar.setForeground(new java.awt.Color(255, 255, 255));
         btneditar.setText("Editar");
+        btneditar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btneditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneditarActionPerformed(evt);
             }
         });
+        jPanel4.add(btneditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 120, 96, 37));
 
+        btneliminar.setBackground(new java.awt.Color(0, 0, 0));
         btneliminar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btneliminar.setForeground(new java.awt.Color(255, 255, 255));
         btneliminar.setText("Eliminar");
+        btneliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btneliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneliminarActionPerformed(evt);
             }
         });
+        jPanel4.add(btneliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 163, 96, 37));
 
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Buscar por ID:");
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 14, -1, -1));
+
+        txtID.setBackground(new java.awt.Color(32, 32, 53));
+        txtID.setForeground(new java.awt.Color(255, 255, 255));
+        txtID.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtID.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtID.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtID.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel4.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 40, 122, -1));
 
         lblbuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/descargar.png"))); // NOI18N
-        lblbuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblbuscar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblbuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblbuscarMouseClicked(evt);
             }
         });
+        jPanel4.add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 25, -1, -1));
+        jPanel4.add(ope, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 220));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btneditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblbuscar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblbuscar))
-                .addGap(18, 18, 18)
-                .addComponent(btnnuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btneditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btneliminar)
-                .addContainerGap(140, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 180, 290));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 200, 220));
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("ID:");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 14, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Título:");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 92, -1, -1));
+
+        txttitulo.setBackground(new java.awt.Color(32, 32, 53));
+        txttitulo.setForeground(new java.awt.Color(255, 255, 255));
+        txttitulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txttitulo.setCaretColor(new java.awt.Color(255, 255, 255));
+        txttitulo.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txttitulo.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txttitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 93, 150, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Autor:");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 130, -1, -1));
+
+        txtautor.setBackground(new java.awt.Color(32, 32, 53));
+        txtautor.setForeground(new java.awt.Color(255, 255, 255));
+        txtautor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtautor.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtautor.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtautor.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txtautor, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 131, 150, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Editorial:");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 168, -1, -1));
+
+        txteditorial.setBackground(new java.awt.Color(32, 32, 53));
+        txteditorial.setForeground(new java.awt.Color(255, 255, 255));
+        txteditorial.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txteditorial.setCaretColor(new java.awt.Color(255, 255, 255));
+        txteditorial.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txteditorial.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txteditorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 169, 150, -1));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Año de publicación:");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 206, -1, -1));
+
+        txtanio.setBackground(new java.awt.Color(32, 32, 53));
+        txtanio.setForeground(new java.awt.Color(255, 255, 255));
+        txtanio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtanio.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtanio.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtanio.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txtanio, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 207, 150, -1));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Categoría:");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 244, -1, -1));
+
+        txtcategoria.setBackground(new java.awt.Color(32, 32, 53));
+        txtcategoria.setForeground(new java.awt.Color(255, 255, 255));
+        txtcategoria.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtcategoria.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtcategoria.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtcategoria.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txtcategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 245, 150, -1));
 
         lblID.setBackground(new java.awt.Color(204, 204, 204));
         lblID.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         lblID.setForeground(new java.awt.Color(255, 255, 255));
-        lblID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblID.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(102, 102, 102)));
+        jPanel3.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 14, 150, 22));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("# De Ejemplar:");
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 282, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtcategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtautor, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txteditorial, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtanio, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txttitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtejemplar, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txttitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtautor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txteditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtejemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
+        txtejemplar.setBackground(new java.awt.Color(32, 32, 53));
+        txtejemplar.setForeground(new java.awt.Color(255, 255, 255));
+        txtejemplar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtejemplar.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtejemplar.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtejemplar.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txtejemplar, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 283, 150, -1));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("ISBN:");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 54, -1, -1));
+
+        txtISBN.setBackground(new java.awt.Color(32, 32, 53));
+        txtISBN.setForeground(new java.awt.Color(255, 255, 255));
+        txtISBN.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtISBN.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtISBN.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtISBN.setSelectionColor(new java.awt.Color(255, 255, 255));
+        jPanel3.add(txtISBN, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 55, 150, -1));
+
+        opa.setText("jLabel11");
+        jPanel3.add(opa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 320, 320));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
@@ -392,9 +414,9 @@ void Llenar(){
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Gestión de Libros");
         lblTitulo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, -1, -1));
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/library-7720589_960_720.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/teslas-library-1.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 510));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -452,9 +474,13 @@ void Llenar(){
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         // TODO add your handling code here:
-        int dialogResult = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este registro?");
+        if(txtISBN.getText().equals("") || txttitulo.getText().equals("") || txtautor.getText().equals("") || txteditorial.getText().equals("") || txtanio.getText().equals("") || txtcategoria.getText().equals("") || txtejemplar.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
+        }else{
+            int dialogResult = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este registro?");
         if(dialogResult == JOptionPane.YES_OPTION){
             Eliminar();
+        }
         }
     }//GEN-LAST:event_btneliminarActionPerformed
 
@@ -533,6 +559,7 @@ void Llenar(){
     private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnnuevo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -548,8 +575,11 @@ void Llenar(){
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblbuscar;
+    private javax.swing.JLabel opa;
+    private javax.swing.JLabel ope;
     private javax.swing.JTable tblDB;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtISBN;
     private javax.swing.JTextField txtanio;
     private javax.swing.JTextField txtautor;
     private javax.swing.JTextField txtcategoria;
