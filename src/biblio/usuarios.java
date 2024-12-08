@@ -4,6 +4,7 @@
  */
 package biblio;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -25,6 +26,8 @@ String validar="f";
      */
     public usuarios() {
         initComponents();
+        opa.setOpaque(true);
+        opa.setBackground(new Color(74,74,82, 200));
         setLocationRelativeTo(null);
     }
     
@@ -70,108 +73,135 @@ void verf(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btg1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         txtusuario = new javax.swing.JTextField();
         pass1 = new javax.swing.JPasswordField();
         pass2 = new javax.swing.JPasswordField();
         btnconf = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jrbusuario = new javax.swing.JRadioButton();
+        jrbadmin = new javax.swing.JRadioButton();
+        opa = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
 
-        jLabel2.setText("Crear nuevo usuario");
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nombre de usuario:");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 64, -1, -1));
 
-        jLabel4.setText("Contraseña:");
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Cargo:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Confirmar contraseña:");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 181, -1, -1));
 
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Contraseña:");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 123, -1, -1));
+
+        txtusuario.setBackground(new java.awt.Color(32, 32, 53));
+        txtusuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtusuario.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtusuario.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel2.add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 86, 195, -1));
+
+        pass1.setBackground(new java.awt.Color(32, 32, 53));
+        pass1.setForeground(new java.awt.Color(255, 255, 255));
+        pass1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pass1.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel2.add(pass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 145, 195, -1));
+
+        pass2.setBackground(new java.awt.Color(32, 32, 53));
+        pass2.setForeground(new java.awt.Color(255, 255, 255));
+        pass2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pass2.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel2.add(pass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 203, 195, -1));
+
+        btnconf.setBackground(new java.awt.Color(0, 0, 0));
+        btnconf.setForeground(new java.awt.Color(255, 255, 255));
         btnconf.setText("Confirmar");
+        btnconf.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnconf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnconfActionPerformed(evt);
             }
         });
+        jPanel2.add(btnconf, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 92, 33));
 
-        btnsalir.setText("Salir");
+        btnsalir.setBackground(new java.awt.Color(0, 0, 0));
+        btnsalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnsalir.setText("Volver");
+        btnsalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnsalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnsalirActionPerformed(evt);
             }
         });
+        jPanel2.add(btnsalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 92, 33));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnconf)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnsalir))
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(txtusuario)
-                    .addComponent(pass1)
-                    .addComponent(pass2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(78, 78, 78))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnconf)
-                    .addComponent(btnsalir))
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Crear nuevo usuario");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 320, 280));
+        btg1.add(jrbusuario);
+        jrbusuario.setForeground(new java.awt.Color(255, 255, 255));
+        jrbusuario.setSelected(true);
+        jrbusuario.setText("Encargado");
+        jrbusuario.setOpaque(false);
+        jrbusuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbusuarioActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jrbusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        btg1.add(jrbadmin);
+        jrbadmin.setForeground(new java.awt.Color(255, 255, 255));
+        jrbadmin.setText("Aministrador");
+        jrbadmin.setOpaque(false);
+        jPanel2.add(jrbadmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, -1, -1));
+        jPanel2.add(opa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 350));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 300, 350));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/teslas-library-1.jpg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 470));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 417, 373));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
+        // TODO add your handling code here:
+        if(biblio.Login.rang.equals("0")){
+         new MenuAdmin().setVisible(true);
+         this.setVisible(false);
+        }if(biblio.Login.rang.equals("1")){
+            new MenuEncargado().setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnsalirActionPerformed
 
     private void btnconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfActionPerformed
         // TODO add your handling code here:
@@ -182,8 +212,8 @@ void verf(){
                 hash();
                 conn = DB.Mysql.getConnection();
                 String sql = "insert into usuario (NOMBRE_USUARIO,CONTRASENIA_USUARIO,RANGO_USUARIO)"
-                        +"values('"+txtusuario.getText()+"',"
-                        +"'"+hashpass+"','1')";
+                +"values('"+txtusuario.getText()+"',"
+                +"'"+hashpass+"','1')";
                 sent = conn.createStatement();
                 int n = sent.executeUpdate(sql);
                 if(n>0){
@@ -201,11 +231,9 @@ void verf(){
         }
     }//GEN-LAST:event_btnconfActionPerformed
 
-    private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
+    private void jrbusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbusuarioActionPerformed
         // TODO add your handling code here:
-        new Login().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnsalirActionPerformed
+    }//GEN-LAST:event_jrbusuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,6 +271,7 @@ void verf(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup btg1;
     private javax.swing.JButton btnconf;
     private javax.swing.JButton btnsalir;
     private javax.swing.JLabel jLabel1;
@@ -250,8 +279,12 @@ void verf(){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jrbadmin;
+    private javax.swing.JRadioButton jrbusuario;
+    private javax.swing.JLabel opa;
     private javax.swing.JPasswordField pass1;
     private javax.swing.JPasswordField pass2;
     private javax.swing.JTextField txtusuario;

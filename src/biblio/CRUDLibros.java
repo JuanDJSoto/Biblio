@@ -131,7 +131,7 @@ void Llenar(){
         JTableHeader header = tblDB.getTableHeader();
 
         // Crear una fuente personalizada para el encabezado
-        Font headerFont = new Font("Times New Roman", Font.BOLD, 14); // Cambia "Arial" por el nombre de tu fuente
+        Font headerFont = new Font("Dialog", Font.BOLD, 12); // Cambia "Arial" por el nombre de tu fuente
         header.setFont(headerFont);
         header.setBackground(new Color(51, 51, 55));
         header.setForeground(Color.white);
@@ -174,6 +174,7 @@ void Llenar(){
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDB = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
+        btnsalir = new javax.swing.JButton();
         btnnuevo = new javax.swing.JButton();
         btneditar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
@@ -235,8 +236,20 @@ void Llenar(){
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnsalir.setBackground(new java.awt.Color(0, 0, 0));
+        btnsalir.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnsalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnsalir.setText("Volver");
+        btnsalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnsalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsalirActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnsalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 96, 37));
+
         btnnuevo.setBackground(new java.awt.Color(0, 0, 0));
-        btnnuevo.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btnnuevo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnnuevo.setForeground(new java.awt.Color(255, 255, 255));
         btnnuevo.setText("Nuevo");
         btnnuevo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -245,10 +258,10 @@ void Llenar(){
                 btnnuevoActionPerformed(evt);
             }
         });
-        jPanel4.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 77, 96, 37));
+        jPanel4.add(btnnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 96, 37));
 
         btneditar.setBackground(new java.awt.Color(0, 0, 0));
-        btneditar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btneditar.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btneditar.setForeground(new java.awt.Color(255, 255, 255));
         btneditar.setText("Editar");
         btneditar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -257,10 +270,10 @@ void Llenar(){
                 btneditarActionPerformed(evt);
             }
         });
-        jPanel4.add(btneditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 120, 96, 37));
+        jPanel4.add(btneditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 96, 37));
 
         btneliminar.setBackground(new java.awt.Color(0, 0, 0));
-        btneliminar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btneliminar.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btneliminar.setForeground(new java.awt.Color(255, 255, 255));
         btneliminar.setText("Eliminar");
         btneliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -269,9 +282,9 @@ void Llenar(){
                 btneliminarActionPerformed(evt);
             }
         });
-        jPanel4.add(btneliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 163, 96, 37));
+        jPanel4.add(btneliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 96, 37));
 
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Buscar por ID:");
         jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 14, -1, -1));
@@ -292,21 +305,21 @@ void Llenar(){
             }
         });
         jPanel4.add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 25, -1, -1));
-        jPanel4.add(ope, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 220));
+        jPanel4.add(ope, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 260));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 200, 220));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 200, 260));
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("ID:");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 14, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Título:");
         jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 92, -1, -1));
@@ -319,7 +332,7 @@ void Llenar(){
         txttitulo.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txttitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 93, 150, -1));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Autor:");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 130, -1, -1));
@@ -332,7 +345,7 @@ void Llenar(){
         txtautor.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txtautor, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 131, 150, -1));
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Editorial:");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 168, -1, -1));
@@ -345,7 +358,7 @@ void Llenar(){
         txteditorial.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txteditorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 169, 150, -1));
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Año de publicación:");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 206, -1, -1));
@@ -358,7 +371,7 @@ void Llenar(){
         txtanio.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txtanio, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 207, 150, -1));
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Categoría:");
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 244, -1, -1));
@@ -377,7 +390,7 @@ void Llenar(){
         lblID.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(102, 102, 102)));
         jPanel3.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 14, 150, 22));
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("# De Ejemplar:");
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 282, -1, -1));
@@ -390,7 +403,7 @@ void Llenar(){
         txtejemplar.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txtejemplar, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 283, 150, -1));
 
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("ISBN:");
         jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 54, -1, -1));
@@ -402,8 +415,6 @@ void Llenar(){
         txtISBN.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtISBN.setSelectionColor(new java.awt.Color(255, 255, 255));
         jPanel3.add(txtISBN, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 55, 150, -1));
-
-        opa.setText("jLabel11");
         jPanel3.add(opa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 320, 320));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
@@ -512,6 +523,17 @@ void Llenar(){
             }
     }//GEN-LAST:event_lblbuscarMouseClicked
 
+    private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
+        // TODO add your handling code here:
+        if(biblio.Login.rang.equals("0")){
+         new MenuAdmin().setVisible(true);
+         this.setVisible(false);
+        }if(biblio.Login.rang.equals("1")){
+            new MenuEncargado().setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_btnsalirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -558,6 +580,7 @@ void Llenar(){
     private javax.swing.JButton btneditar;
     private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnnuevo;
+    private javax.swing.JButton btnsalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

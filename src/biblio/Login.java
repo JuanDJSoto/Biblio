@@ -19,6 +19,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
     public static Connection Conn;
+    public static String rang="";
     Statement sent;
 public static String users="0";
 
@@ -35,6 +36,18 @@ public static String users="0";
     void Limpiar(){
         txtusuario.setText("");
         password.setText("");
+    }
+    void Rango(){
+        String sql ="SELECT RANGO_USUARIO from USUARIO WHERE NOMBRE_USUARIO='"+txtusuario.getText()+"'";
+        try{
+            Conn = DB.Mysql.getConnection();
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            rs.next();
+            rang= rs.getString(1);
+    }catch (SQLException e){
+            
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,7 +87,7 @@ public static String users="0";
 
         password.setBackground(new java.awt.Color(32, 32, 53));
         password.setForeground(new java.awt.Color(255, 255, 255));
-        password.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        password.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         password.setCaretColor(new java.awt.Color(255, 255, 255));
         password.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         jPanel2.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 230, 20));
@@ -97,7 +110,7 @@ public static String users="0";
 
         btnsalirlogin.setBackground(new java.awt.Color(18, 18, 18));
         btnsalirlogin.setForeground(new java.awt.Color(255, 255, 255));
-        btnsalirlogin.setText("Salir");
+        btnsalirlogin.setText("Volver");
         btnsalirlogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnsalirlogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +121,7 @@ public static String users="0";
 
         txtusuario.setBackground(new java.awt.Color(32, 32, 53));
         txtusuario.setForeground(new java.awt.Color(255, 255, 255));
-        txtusuario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtusuario.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtusuario.setCaretColor(new java.awt.Color(255, 255, 255));
         txtusuario.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtusuario.setSelectionColor(new java.awt.Color(255, 255, 255));
@@ -181,10 +194,16 @@ public static String users="0";
             JOptionPane.showMessageDialog(null,"Usuario no encontrado");
             Limpiar();
         }
-        if(BCrypt.checkpw(pass, pass1)){
+    if(BCrypt.checkpw(pass, pass1)){
         JOptionPane.showMessageDialog(null, "Login exitoso");
-        new test().setVisible(true);
+        Rango();
+        if(rang.equals("0")){
+            new MenuAdmin().setVisible(true);
+            this.setVisible(false);
+        }if(rang.equals("1")){
+        new MenuEncargado().setVisible(true);
         this.setVisible(false);
+        }
     }else{
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
             Limpiar();
@@ -194,7 +213,8 @@ public static String users="0";
 
     private void btnsalirloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirloginActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        new Principal().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnsalirloginActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked

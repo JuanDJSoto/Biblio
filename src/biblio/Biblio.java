@@ -14,8 +14,7 @@ public class Biblio {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new CRUDLibros().setVisible(true);
-        //new Login().setVisible(true);
+        new Principal().setVisible(true);
         // TODO code application logic here
     }
     
