@@ -9,7 +9,7 @@
  */
 public class PruebaGit {
      public static void main(String[] args) {
-        System.out.println("Este es un archivo de prueba para verificar Git.");
+        System.out.println("Este es un archivo de prueba para verificar Git");
     }
     
 }
