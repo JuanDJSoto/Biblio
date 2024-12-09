@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class Mysql {
     private static String user="root";
-    private static String pass="";
+    private static String pass="Sebas2804.";
     private static String url="jdbc:mysql://localhost:3306/biblioteca";
     private static Connection Conn;
     
@@ -30,4 +30,17 @@ public class Mysql {
         }
         return Conn;
     }
+    
+    public static void main(String[] args) {
+    Connection con = Mysql.getConnection();
+    if (con != null) {
+        System.out.println("Conexión establecida con éxito");
+    } else {
+        System.err.println("Error al conectar con la base de datos");
+    }
+}
+
+    
+ 
+
 }
