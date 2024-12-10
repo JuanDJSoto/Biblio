@@ -22,7 +22,7 @@ import javax.swing.table.JTableHeader;
 public class CRUDMiembros extends javax.swing.JFrame {
 Connection conn;
 Statement sent;
-String folio,fecha;
+String fecha;
 DefaultTableModel model;
     /**
      * Creates new form GestionProducto
@@ -51,7 +51,7 @@ DefaultTableModel model;
     void Limpiar(){
         txtnombre.setText("");
         txttelefono.setText("");
-        lblfecha.setText(fecha);
+        lblfecha.setText("");
         lblID.setText("");
     }
     
@@ -78,6 +78,7 @@ void Nueva(){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         Llenar();
+        Limpiar();
 }
 }
 void Editar(){
@@ -103,6 +104,7 @@ void Editar(){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
         Llenar();
+        Limpiar();
 }
 }
 void Eliminar(){
@@ -123,6 +125,7 @@ void Eliminar(){
         }catch (Exception e){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
+    Limpiar();
     Llenar();
 }
 
@@ -290,6 +293,11 @@ void Llenar(){
         txtID.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txtID.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtID.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txtID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIDKeyTyped(evt);
+            }
+        });
         jPanel4.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 40, 122, -1));
         jPanel4.add(opa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 240));
 
@@ -331,6 +339,11 @@ void Llenar(){
         txttelefono.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         txttelefono.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txttelefono.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txttelefonoKeyTyped(evt);
+            }
+        });
         jPanel3.add(txttelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 172, 150, 22));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -405,12 +418,28 @@ void Llenar(){
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
+        if(txtnombre.getText().equals("") || txttelefono.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+        }else{
+        if(txttelefono.getText().length()<10){
+           JOptionPane.showMessageDialog(null, "Número telefónico inválido");
+        }else{
         Nueva();
+        }
+        }
     }//GEN-LAST:event_btnnuevoActionPerformed
 
     private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
         // TODO add your handling code here:
+        if(txtnombre.getText().equals("") || txttelefono.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+        }else{
+        if(txttelefono.getText().length()<10){
+           JOptionPane.showMessageDialog(null, "Número telefónico inválido");
+        }else{
         Editar();
+        }
+        }
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
@@ -456,6 +485,31 @@ void Llenar(){
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        
+        if(!numero){
+            evt.consume();
+        }
+        if(txttelefono.getText().trim().length()>=10){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txttelefonoKeyTyped
+
+    private void txtIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        
+        if(!numero){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIDKeyTyped
 
     /**
      * @param args the command line arguments

@@ -18,6 +18,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class usuarios extends javax.swing.JFrame {
 Connection conn;
 Statement sent;
+Integer jrb=0;
 String usuario="a";
 String hashpass="";
 String validar="f";
@@ -53,6 +54,8 @@ void ver(){
 
 void verf(){
     validar="t";
+    Integer a=pass1.getText().length();
+    Integer b=pass2.getText().length();
     if(usuario.equals(txtusuario.getText())){
             JOptionPane.showMessageDialog(null, "Usuario no válido, ya se usó en otro registro");
             validar="f";
@@ -62,7 +65,17 @@ void verf(){
         }if(!pass1.getText().equals(pass2.getText())){
             JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intentelo de nuevo");
             validar="f";
+        }if(a<8 || b<8){
+            JOptionPane.showMessageDialog(null, "La contraseña debe contener por lo menos 8 carácteres");
+            validar="f";
         }
+}
+void jrbrango(){
+    if(jrbencargado.isSelected()){
+        jrb=1;
+    }if(jrbadmin.isSelected()){
+        jrb=0;
+    }
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,7 +99,7 @@ void verf(){
         btnconf = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jrbusuario = new javax.swing.JRadioButton();
+        jrbencargado = new javax.swing.JRadioButton();
         jrbadmin = new javax.swing.JRadioButton();
         opa = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -163,17 +176,17 @@ void verf(){
         jLabel1.setText("Crear nuevo usuario");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        btg1.add(jrbusuario);
-        jrbusuario.setForeground(new java.awt.Color(255, 255, 255));
-        jrbusuario.setSelected(true);
-        jrbusuario.setText("Encargado");
-        jrbusuario.setOpaque(false);
-        jrbusuario.addActionListener(new java.awt.event.ActionListener() {
+        btg1.add(jrbencargado);
+        jrbencargado.setForeground(new java.awt.Color(255, 255, 255));
+        jrbencargado.setSelected(true);
+        jrbencargado.setText("Encargado");
+        jrbencargado.setOpaque(false);
+        jrbencargado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbusuarioActionPerformed(evt);
+                jrbencargadoActionPerformed(evt);
             }
         });
-        jPanel2.add(jrbusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
+        jPanel2.add(jrbencargado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
         btg1.add(jrbadmin);
         jrbadmin.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,10 +223,11 @@ void verf(){
         if(validar.equals("t")){
             try{
                 hash();
+                jrbrango();
                 conn = DB.Mysql.getConnection();
                 String sql = "insert into usuario (NOMBRE_USUARIO,CONTRASENIA_USUARIO,RANGO_USUARIO)"
                 +"values('"+txtusuario.getText()+"',"
-                +"'"+hashpass+"','1')";
+                +"'"+hashpass+"','"+jrb+"')";
                 sent = conn.createStatement();
                 int n = sent.executeUpdate(sql);
                 if(n>0){
@@ -231,9 +245,9 @@ void verf(){
         }
     }//GEN-LAST:event_btnconfActionPerformed
 
-    private void jrbusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbusuarioActionPerformed
+    private void jrbencargadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbencargadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jrbusuarioActionPerformed
+    }//GEN-LAST:event_jrbencargadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,7 +297,7 @@ void verf(){
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jrbadmin;
-    private javax.swing.JRadioButton jrbusuario;
+    private javax.swing.JRadioButton jrbencargado;
     private javax.swing.JLabel opa;
     private javax.swing.JPasswordField pass1;
     private javax.swing.JPasswordField pass2;

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author 3RO
  */
 public class Mysql {
+    //private static String pass="";
     private static String user="root";
     private static String pass="Sebas2804.";
     private static String url="jdbc:mysql://localhost:3306/biblioteca";

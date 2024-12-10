@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -43,6 +44,7 @@ DefaultTableModel model;
         txtcategoria.setText("");
         txtejemplar.setText("");
         lblID.setText("");
+        txtISBN.setText("");
     }
     
 void Nueva(){
@@ -51,8 +53,9 @@ void Nueva(){
         }else{
         try{
             conn = DB.Mysql.getConnection();
-            String sql = "insert into Libros (TITULO_LIBRO,AUTOR_LIBRO,EDITORIAL_LIBRO,ANIO_LIBRO,ESTADO_LIBRO,CATEGORIA_LIBRO,EJEMPLAR_LIBRO)"
+            String sql = "insert into Libros (ISBN,TITULO_LIBRO,AUTOR_LIBRO,EDITORIAL_LIBRO,ANIO_LIBRO,ESTADO_LIBRO,CATEGORIA_LIBRO,EJEMPLAR_LIBRO)"
                     +"values("
+                    +"'"+txtISBN.getText()+"',"
                     +"'"+txttitulo.getText()+"',"
                     +"'"+txtautor.getText()+"',"
                     +"'"+txteditorial.getText()+"',"
@@ -81,7 +84,8 @@ void Editar(){
         }else{
         try{
             conn = DB.Mysql.getConnection();
-            String sql = "UPDATE Libros SET TITULO_LIBRO="
+            String sql = "UPDATE Libros SET ISBN="
+                    +"'"+txtISBN.getText()+"',TITULO_LIBRO="
                     +"'"+txttitulo.getText()+"',AUTOR_LIBRO="
                     +"'"+txtautor.getText()+"',EDITORIAL_LIBRO="
                     +"'"+txteditorial.getText()+"',ANIO_LIBRO="
@@ -137,21 +141,22 @@ void Llenar(){
         header.setForeground(Color.white);
         try {
             conn = DB.Mysql.getConnection();
-            String[] titulos ={"ID","Título","Autor","Editorial","Año","Estado","Categoría","#Ejemplar"};
+            String[] titulos ={"ID","ISBN","Título","Autor","Editorial","Año","Estado","Categoría","#Ejemplar"};
             String sql = "Select * from libros";
             model = new DefaultTableModel(null, titulos);
             sent = conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-            String[] fila = new String[8];
+            String[] fila = new String[9];
             while (rs.next()){
                 fila[0]=rs.getString("ID_LIBRO");
-                fila[1]=rs.getString("TITULO_LIBRO");
-                fila[2]=rs.getString("AUTOR_LIBRO");
-                fila[3]=rs.getString("EDITORIAL_LIBRO");
-                fila[4]=rs.getString("ANIO_LIBRO");
-                fila[5]=rs.getString("ESTADO_LIBRO");
-                fila[6]=rs.getString("CATEGORIA_LIBRO");
-                fila[7]=rs.getString("EJEMPLAR_LIBRO");
+                fila[1]=rs.getString("ISBN");
+                fila[2]=rs.getString("TITULO_LIBRO");
+                fila[3]=rs.getString("AUTOR_LIBRO");
+                fila[4]=rs.getString("EDITORIAL_LIBRO");
+                fila[5]=rs.getString("ANIO_LIBRO");
+                fila[6]=rs.getString("ESTADO_LIBRO");
+                fila[7]=rs.getString("CATEGORIA_LIBRO");
+                fila[8]=rs.getString("EJEMPLAR_LIBRO");
                 model.addRow(fila);
             }
             tblDB.setModel(model);
@@ -295,6 +300,11 @@ void Llenar(){
         txtID.setCaretColor(new java.awt.Color(255, 255, 255));
         txtID.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtID.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txtID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIDKeyTyped(evt);
+            }
+        });
         jPanel4.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 40, 122, -1));
 
         lblbuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/descargar.png"))); // NOI18N
@@ -369,6 +379,11 @@ void Llenar(){
         txtanio.setCaretColor(new java.awt.Color(255, 255, 255));
         txtanio.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtanio.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txtanio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtanioKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtanio, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 207, 150, -1));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -414,6 +429,11 @@ void Llenar(){
         txtISBN.setCaretColor(new java.awt.Color(255, 255, 255));
         txtISBN.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtISBN.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txtISBN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtISBNKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtISBN, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 55, 150, -1));
         jPanel3.add(opa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -5, 320, 320));
 
@@ -455,6 +475,7 @@ void Llenar(){
                 ResultSet rs = sent.executeQuery(sql);
                 rs.next();
                 if(rs.getString("TITULO_LIBRO")!=""){
+                    txtISBN.setText(rs.getString("ISBN"));
                     lblID.setText(rs.getString("ID_LIBRO"));
                     txttitulo.setText(rs.getString("TITULO_LIBRO"));
                     txtautor.setText(rs.getString("AUTOR_LIBRO"));
@@ -475,12 +496,26 @@ void Llenar(){
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
+        LocalDateTime hoy = LocalDateTime.now();
+        int anio=hoy.getYear();
+        int aux=Integer.parseInt(txtanio.getText());
+        if(txtanio.getText().length()<4 || aux>anio){
+            JOptionPane.showMessageDialog(null, "Año de publicación no valido");
+        }else{
         Nueva();
+        }
     }//GEN-LAST:event_btnnuevoActionPerformed
 
     private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
         // TODO add your handling code here:
+        LocalDateTime hoy = LocalDateTime.now();
+        int anio=hoy.getYear();
+        int aux=Integer.parseInt(txtanio.getText());
+        if(txtanio.getText().length()<4 || aux>anio){
+            JOptionPane.showMessageDialog(null, "Año de publicación no valido");
+        }else{
         Editar();
+        }
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
@@ -507,6 +542,7 @@ void Llenar(){
                 if(rs!=null){
                     //JOptionPane.showMessageDialog(null, "Registro encontrado");
                     lblID.setText(rs.getString("ID_LIBRO"));
+                    txtISBN.setText(rs.getString("ISBN"));
                     txttitulo.setText(rs.getString("TITULO_LIBRO"));
                     txtautor.setText(rs.getString("AUTOR_LIBRO"));
                     txteditorial.setText(rs.getString("EDITORIAL_LIBRO"));
@@ -533,6 +569,47 @@ void Llenar(){
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void txtISBNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtISBNKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        
+        if(!numero){
+            evt.consume();
+        }
+        
+        if(txtISBN.getText().trim().length() == 13){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtISBNKeyTyped
+
+    private void txtanioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtanioKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        
+        if(!numero){
+            evt.consume();
+        }
+        
+        if(txtanio.getText().trim().length() == 4){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtanioKeyTyped
+
+    private void txtIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >= 48 && key <= 57;
+        
+        if(!numero){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIDKeyTyped
 
     /**
      * @param args the command line arguments
